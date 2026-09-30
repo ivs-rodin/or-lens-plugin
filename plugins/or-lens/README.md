@@ -263,3 +263,8 @@ account integration and are not established by local checks.
 See [PLAN.md](PLAN.md) for accepted M4–M13 scope, [DESIGN.md](DESIGN.md) for
 the brand and interface rules, and [docs/ui-contract.md](docs/ui-contract.md)
 for the browser/MCP App contract.
+
+## License
+
+MIT, see [LICENSE](LICENSE). The workbench UI bundles npm packages listed with
+their licenses in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

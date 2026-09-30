@@ -2,7 +2,8 @@
 """Export a Git-ready Codex marketplace that contains only the OR Lens plugin.
 
 The output directory is meant to be its own public repository. Only the paths
-this exporter owns are replaced; `.git`, a license or other files there stay.
+this exporter owns (plugin, marketplace file, README, LICENSE) are replaced;
+`.git` and any other files there stay.
 """
 
 from __future__ import annotations
@@ -42,7 +43,12 @@ def write_marketplace(output: Path) -> list[Path]:
     output = output.resolve()
     if output == ROOT or ROOT in output.parents:
         raise ValueError("export the marketplace outside the source repository")
-    for owned in (output / PLUGIN_DIR, output / MARKETPLACE_FILE, output / "README.md"):
+    for owned in (
+        output / PLUGIN_DIR,
+        output / MARKETPLACE_FILE,
+        output / "README.md",
+        output / "LICENSE",
+    ):
         if owned.is_dir():
             shutil.rmtree(owned)
         elif owned.exists():
@@ -58,7 +64,8 @@ def write_marketplace(output: Path) -> list[Path]:
     marketplace.parent.mkdir(parents=True, exist_ok=True)
     marketplace.write_text(json.dumps(marketplace_config(), indent=2) + "\n")
     shutil.copyfile(README_TEMPLATE, output / "README.md")
-    return [*written, MARKETPLACE_FILE, Path("README.md")]
+    shutil.copyfile(ROOT / "LICENSE", output / "LICENSE")
+    return [*written, MARKETPLACE_FILE, Path("README.md"), Path("LICENSE")]
 
 
 def main() -> None:

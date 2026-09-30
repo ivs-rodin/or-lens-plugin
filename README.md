@@ -40,3 +40,9 @@ chat.
 ```sh
 codex plugin marketplace upgrade or-lens
 ```
+
+## License
+
+MIT, see [LICENSE](LICENSE). Third-party components bundled into the workbench
+UI are listed with their licenses in
+[plugins/or-lens/THIRD_PARTY_NOTICES.md](plugins/or-lens/THIRD_PARTY_NOTICES.md).

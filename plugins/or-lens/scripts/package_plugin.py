@@ -17,6 +17,8 @@ EXACT_FILES = (
     Path("uv.lock"),
     Path("README.md"),
     Path("docs/local-codex-plugin.md"),
+    Path("LICENSE"),
+    Path("THIRD_PARTY_NOTICES.md"),
 )
 DIRECTORIES = (Path("server"), Path("scripts"), Path("skills"))
 FORBIDDEN_PARTS = {".git", ".omx", ".venv", "node_modules", "__pycache__"}
