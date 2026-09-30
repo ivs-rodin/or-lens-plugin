@@ -1,20 +1,27 @@
 {
   "name": "or-lens",
-  "version": "0.2.0",
-  "description": "Local LP/MPS diagnostics, matrix exploration, and HiGHS solves for Codex.",
+  "version": "0.2.1",
+  "description": "Debug LP/MPS optimization models on this computer: diagnostics, matrix views, verified conflicts and HiGHS solves.",
   "author": {
-    "name": "OR Lens"
+    "name": "OR Lens",
+    "url": "https://github.com/ivs-rodin/or-lens-plugin"
   },
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "OR Lens",
-    "shortDescription": "Analyze LP/MPS models on this computer.",
-    "longDescription": "Runs OR Lens and HiGHS locally so model inspection, diagnostics, matrix views, and solves use this computer's resources.",
+    "shortDescription": "Debug LP/MPS models locally",
+    "longDescription": "OR Lens opens LP and MPS models on this computer and explains them with computed facts: model summary, coefficient ranges, diagnostics, the sparse matrix, name-based families, verified infeasibility conflicts and HiGHS solves. The workbench opens next to the chat; model files and computation stay local.",
     "developerName": "OR Lens",
     "category": "Developer Tools",
     "capabilities": ["Interactive"],
+    "websiteURL": "https://github.com/ivs-rodin/or-lens-plugin",
     "defaultPrompt": [
-      "Open a local LP or MPS model and explain why it is difficult to solve."
-    ]
+      "Use OR Lens to explain why /path/to/model.lp is infeasible.",
+      "Use OR Lens to find out why /path/to/model.mps solves slowly.",
+      "Open /path/to/model.lp in OR Lens and summarize its diagnostics."
+    ],
+    "brandColor": "#116b67",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png"
   }
 }

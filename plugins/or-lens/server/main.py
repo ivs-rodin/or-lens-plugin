@@ -239,7 +239,7 @@ def create_server(
 
 @dataclass
 class DesktopServer:
-    """One local workspace shared by Codex stdio and a loopback workbench."""
+    """One local workspace shared by a stdio MCP client and a loopback workbench."""
 
     mcp: WorkbenchServer
     http: WorkbenchServer
@@ -292,7 +292,7 @@ class DesktopServer:
 
 
 def create_desktop_server(port: int = 0) -> DesktopServer:
-    """Build the local-only Codex connection without binding a fixed port."""
+    """Build the local-only desktop connection without binding a fixed port."""
     listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listener.bind(("127.0.0.1", port))
@@ -310,9 +310,10 @@ def create_desktop_server(port: int = 0) -> DesktopServer:
         service=service,
         close_service=False,
         instructions=(
-            "This is a local Codex connection. Prefer open_local_optimization_model for an "
+            "This is a local desktop connection. Prefer open_local_optimization_model for an "
             "absolute LP/MPS path on this computer. Its workbench_url is a loopback URL: "
-            "open it in Codex's right panel. For follow-up questions, call "
+            "open it in the host's side panel or browser when available, otherwise give it "
+            "to the user. For follow-up questions, call "
             "get_optimization_panel_state to recover the current overview and last selection. "
             "All optimization parsing and solving stays on this computer."
         ),
@@ -329,7 +330,7 @@ def main() -> None:
     serve.add_argument("--transport", choices=["stdio", "streamable-http"], default="stdio")
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=8000)
-    desktop = commands.add_parser("desktop", help="Start local Codex MCP and loopback workbench")
+    desktop = commands.add_parser("desktop", help="Start local stdio MCP and loopback workbench")
     desktop.add_argument("--port", type=int, default=0)
     for operation in ("inspect", "analyze", "solve"):
         command = commands.add_parser(operation, help=f"{operation.title()} a local LP/MPS file")

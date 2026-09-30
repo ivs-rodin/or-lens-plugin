@@ -1,0 +1,27 @@
+{
+  "name": "or-lens",
+  "displayName": "OR Lens",
+  "version": "0.2.1",
+  "description": "Debug LP/MPS optimization models on this computer: diagnostics, matrix views, verified conflicts and HiGHS solves, with a local workbench.",
+  "author": {
+    "name": "OR Lens",
+    "url": "https://github.com/ivs-rodin/or-lens-plugin"
+  },
+  "homepage": "https://github.com/ivs-rodin/or-lens-plugin",
+  "repository": "https://github.com/ivs-rodin/or-lens-plugin",
+  "license": "MIT",
+  "keywords": [
+    "optimization",
+    "operations-research",
+    "linear-programming",
+    "mixed-integer-programming",
+    "highs",
+    "infeasibility"
+  ],
+  "mcpServers": {
+    "or-lens": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/run-desktop.sh",
+      "args": []
+    }
+  }
+}

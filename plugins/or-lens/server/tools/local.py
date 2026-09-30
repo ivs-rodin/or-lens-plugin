@@ -68,9 +68,9 @@ def register_local_tools(
         """Open an absolute local .lp or .mps file in OR Lens.
 
         This tool copies a bounded snapshot before inspection, never changes the
-        source file, and is available only in the local Codex desktop connection.
-        Open ``workbench_url`` in Codex's right panel to inspect the matrix and
-        diagnostics while discussing this model.
+        source file, and is available only in the local desktop connection.
+        Open ``workbench_url`` in the host's side panel or a browser to inspect
+        the matrix and diagnostics while discussing this model.
         """
         overview = await service.open_local_path(path)
         return LocalWorkspaceOverview(

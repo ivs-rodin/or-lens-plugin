@@ -1,0 +1,15 @@
+{
+  "name": "or-lens",
+  "owner": {
+    "name": "ivs-rodin",
+    "url": "https://github.com/ivs-rodin"
+  },
+  "description": "OR Lens: debug LP/MPS optimization models locally with HiGHS.",
+  "plugins": [
+    {
+      "name": "or-lens",
+      "source": "./plugins/or-lens",
+      "description": "Debug LP/MPS optimization models on this computer: diagnostics, matrix views, verified conflicts and HiGHS solves, with a local workbench."
+    }
+  ]
+}

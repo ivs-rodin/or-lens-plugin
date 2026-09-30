@@ -66,6 +66,21 @@ codex plugin add or-lens@or-lens
 ```
 
 Обновление после нового экспорта и push: `codex plugin marketplace upgrade or-lens`.
+
+Тот же репозиторий — маркетплейс Claude Code (`.claude-plugin/marketplace.json`):
+
+```sh
+claude plugin marketplace add ivs-rodin/or-lens-plugin
+claude plugin install or-lens@or-lens
+```
+
+Claude Code сначала читает `.mcp.json` плагина (формат Codex), затем
+`mcpServers` из `.claude-plugin/plugin.json`; сервер `or-lens` оттуда заменяет
+запись Codex и запускает `${CLAUDE_PLUGIN_ROOT}/scripts/run-desktop.sh` без
+зависимости от рабочей папки. Иконка и логотип для списка плагинов Codex лежат
+в `assets/` (сгенерированы из `ui/brand/`), плашка и превью README — в
+`marketplace/assets/`. Перед публикацией проверяйте `claude plugin validate`
+для папки плагина и корня маркетплейса.
 Общий каталог плагинов OpenAI требует MCP по публичному HTTPS, поэтому
 локальный stdio-плагин распространяется через такой маркетплейс.
 
