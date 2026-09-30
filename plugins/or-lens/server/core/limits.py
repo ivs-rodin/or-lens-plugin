@@ -1,0 +1,7 @@
+"""Shared local-resource limits for model ingestion and processing."""
+
+MAX_FILE_BYTES = 1024**3
+MAX_WORKSPACE_BYTES = 4 * MAX_FILE_BYTES
+DEFAULT_TIME_LIMIT_SECONDS = 300.0
+MAX_TIME_LIMIT_SECONDS = 300.0
+TRANSFER_TIMEOUT_SECONDS = 300.0

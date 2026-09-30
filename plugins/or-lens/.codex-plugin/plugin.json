@@ -1,0 +1,20 @@
+{
+  "name": "or-lens",
+  "version": "0.2.0",
+  "description": "Local LP/MPS diagnostics, matrix exploration, and HiGHS solves for Codex.",
+  "author": {
+    "name": "OR Lens"
+  },
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "OR Lens",
+    "shortDescription": "Analyze LP/MPS models on this computer.",
+    "longDescription": "Runs OR Lens and HiGHS locally so model inspection, diagnostics, matrix views, and solves use this computer's resources.",
+    "developerName": "OR Lens",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Open a local LP or MPS model and explain why it is difficult to solve."
+    ]
+  }
+}
