@@ -39,9 +39,17 @@ download-host configuration, or separate LLM API key is needed for this workflow
   is needed, use `run_optimization_model` with a short explicit time limit such
   as 30 seconds and one thread, unless the user supplied a different budget.
   Check termination status, bound, gap and validation before discussing results.
-- For infeasibility, use `explain_optimization_conflict`; distinguish a verified
-  LP/LP-relaxation conflict from integer-only infeasibility, unsupported cases,
-  and a timeout. Do not fabricate conflict members.
+- For infeasibility, call `diagnose_optimization_infeasibility` first. It runs
+  STOLP and returns every independent source with fixes checked on the whole
+  model. Read its `guidance` before acting: each source is one cause, and the
+  fixes of a source are alternatives ordered by size, not a diagnosis. Decide
+  which data are wrong from comparable data (the same constraint family at other
+  indices, constraints on the same variables) and state the evidence, then
+  verify the change at every index of the source by re-solving.
+- Use `explain_optimization_conflict` when one verified native IIS is needed;
+  distinguish a verified LP/LP-relaxation conflict from integer-only
+  infeasibility, unsupported cases, and a timeout. Do not fabricate conflict
+  members.
 - To test solver-parameter hypotheses, follow the bundled
   `optimization-experiments` skill with a stated run/time budget. Do not modify
   model coefficients, constraints or the source file as part of an experiment.

@@ -168,11 +168,19 @@ For HTTP clients, start the server as above and connect to
 - `open_optimization_model` and `get_optimization_overview`
 - `view_optimization_matrix`, `select_optimization_region` and
   `get_optimization_families`
-- `run_optimization_model`, `explain_optimization_conflict`, and
-  `list_optimization_runs`
+- `run_optimization_model`, `explain_optimization_conflict`,
+  `diagnose_optimization_infeasibility`, and `list_optimization_runs`
 - `compare_optimization_runs`
 - `start_optimization_experiment`, `get_optimization_experiment`,
   `run_optimization_trial`, and `cancel_optimization_experiment`
+
+`explain_optimization_conflict` returns one verified native HiGHS IIS.
+`diagnose_optimization_infeasibility` runs [STOLP](https://gitlab.com/tarasov.alexey/stolp),
+an open-source library that finds every independent source of infeasibility and,
+per constraint group, the bound change that makes the whole model feasible. Its
+report carries guidance for agents: fixes are alternatives, so decide which data
+are wrong from comparable data and verify by re-solving. STOLP's benchmark against
+solver IIS and with agents is in its repository (`docs/benchmark.md`).
 
 `open_optimization_model` associates the bundled MCP App resource
 `ui://or-lens/v1/index.html` with an uploaded model. The browser UI is served at

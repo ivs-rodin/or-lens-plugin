@@ -22,6 +22,7 @@ Operation = Literal[
     "conflict",
     "solve_validated",
     "families",
+    "sources",
 ]
 PARSE_TIMEOUT_SECONDS = TRANSFER_TIMEOUT_SECONDS
 ANALYSIS_TIMEOUT_SECONDS = TRANSFER_TIMEOUT_SECONDS
@@ -64,11 +65,11 @@ async def run_model(
         response = json.loads(first)
         if response.get("stage") == "loaded":
             stage = "operation"
-            if operation in {"solve", "conflict"}:
-                timeout = (
-                    float((parameters or {}).get("time_limit_seconds", DEFAULT_TIME_LIMIT_SECONDS))
-                    + 5
-                )
+            if operation in {"solve", "conflict", "sources"}:
+                # STOLP finishes its last whole-model fix check after the search budget.
+                timeout = float(
+                    (parameters or {}).get("time_limit_seconds", DEFAULT_TIME_LIMIT_SECONDS)
+                ) + (15 if operation == "sources" else 5)
             elif operation == "solve_validated":
                 timeout = (
                     float(

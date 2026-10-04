@@ -31,6 +31,7 @@ from server.schemas.matrix import (
     SelectionParameters,
 )
 from server.schemas.solver import MAX_RANDOM_SEED
+from server.schemas.sources import SourcesParameters, SourcesReport
 from server.schemas.workspace import (
     RunList,
     RunParameters,
@@ -227,6 +228,26 @@ def workbench_tools(service: WorkbenchService) -> list[Tool]:
         """
         return await service.conflict(
             model_id, ConflictParameters(time_limit_seconds=time_limit_seconds)
+        )
+
+    @register()
+    async def diagnose_optimization_infeasibility(
+        model_id: str,
+        time_limit_seconds: Annotated[
+            float, Field(ge=0, le=MAX_TIME_LIMIT_SECONDS, strict=True)
+        ] = DEFAULT_TIME_LIMIT_SECONDS,
+    ) -> SourcesReport:
+        """Find every independent source of infeasibility and fixes checked on the whole model.
+
+        Runs the open-source STOLP library on this model: minimal conflicting
+        constraint groups, the constraints inside them, and per group the smallest
+        bound change that makes the whole model feasible. Each source is one cause;
+        its fixes are alternatives ordered by size, not a diagnosis of which data are
+        wrong. Read ``guidance`` before acting, decide from the data, and verify by
+        re-solving. For one native IIS certificate use explain_optimization_conflict.
+        """
+        return await service.sources(
+            model_id, SourcesParameters(time_limit_seconds=time_limit_seconds)
         )
 
     @register()

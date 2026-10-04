@@ -55,6 +55,18 @@ def main() -> None:
             result = conflict_report(
                 model, ConflictParameters.model_validate(request["parameters"])
             )
+        elif operation == "sources":
+            from server.core.sources import sources_report
+            from server.schemas.sources import SourcesParameters
+
+            model_hash = model.model_hash
+            # STOLP reads the snapshot file itself: release this copy first.
+            del model
+            result = sources_report(
+                Path(request["path"]),
+                model_hash,
+                SourcesParameters.model_validate(request["parameters"]),
+            )
         elif operation == "families":
             from server.core.families import family_summary
 

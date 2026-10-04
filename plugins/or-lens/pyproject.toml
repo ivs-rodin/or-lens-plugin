@@ -15,6 +15,8 @@ dependencies = [
   "scipy>=1.15,<2",
   "pydantic>=2.11,<3",
   "httpx>=0.28,<1",
+  # STOLP is not on PyPI; pinned to a published commit of its public GitLab repository.
+  "stolp @ git+https://gitlab.com/tarasov.alexey/stolp.git@5882e6c2ddaf7f3c756008878920bba36be0b83b",
 ]
 
 [project.optional-dependencies]
@@ -22,6 +24,9 @@ dev = ["pytest>=8,<10", "pytest-asyncio>=1,<2", "ruff>=0.12,<1", "mypy>=1.15,<3"
 
 [project.scripts]
 or-lens = "server.main:main"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["server"]
@@ -52,5 +57,5 @@ disallow_untyped_defs = true
 warn_unused_ignores = true
 
 [[tool.mypy.overrides]]
-module = ["highspy.*", "scipy.*"]
+module = ["highspy.*", "scipy.*", "stolp.*"]
 ignore_missing_imports = true

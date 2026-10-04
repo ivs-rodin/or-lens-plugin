@@ -35,6 +35,7 @@ from server.schemas.matrix import (
     SelectionContext,
     SelectionParameters,
 )
+from server.schemas.sources import SourcesParameters, SourcesReport
 from server.schemas.workspace import (
     DeleteResult,
     Example,
@@ -303,6 +304,16 @@ class WorkbenchService:
             if report.model_hash != entry.summary.model_hash:
                 raise ModelError("model_changed", "Model snapshot hash does not match.")
             entry.conflict = report
+            return report
+
+    async def sources(self, model_id: str, parameters: SourcesParameters) -> SourcesReport:
+        """Find every independent source of infeasibility with STOLP."""
+        async with self.model_job(model_id) as entry:
+            report = SourcesReport.model_validate(
+                await run_model("sources", entry.path, entry.summary.name, parameters.model_dump())
+            )
+            if report.model_hash != entry.summary.model_hash:
+                raise ModelError("model_changed", "Model snapshot hash does not match.")
             return report
 
     async def _solve_validated(
