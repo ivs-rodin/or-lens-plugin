@@ -1,6 +1,6 @@
 {
   "name": "or-lens",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Debug LP/MPS optimization models on this computer: diagnostics, matrix views, verified conflicts and HiGHS solves.",
   "author": {
     "name": "OR Lens",

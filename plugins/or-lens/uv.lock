@@ -602,7 +602,7 @@ requires-dist = [
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=1,<2" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.12,<1" },
     { name = "scipy", specifier = ">=1.15,<2" },
-    { name = "stolp", git = "https://gitlab.com/tarasov.alexey/stolp.git?rev=5882e6c2ddaf7f3c756008878920bba36be0b83b" },
+    { name = "stolp", git = "https://gitlab.com/tarasov.alexey/stolp.git?rev=v0.3.0" },
 ]
 provides-extras = ["dev"]
 
@@ -1073,8 +1073,8 @@ wheels = [
 
 [[package]]
 name = "stolp"
-version = "0.2.1"
-source = { git = "https://gitlab.com/tarasov.alexey/stolp.git?rev=5882e6c2ddaf7f3c756008878920bba36be0b83b#5882e6c2ddaf7f3c756008878920bba36be0b83b" }
+version = "0.3.0"
+source = { git = "https://gitlab.com/tarasov.alexey/stolp.git?rev=v0.3.0#ac7098a3a6839ef44cb0a1769f5b325d808278a6" }
 dependencies = [
     { name = "highspy" },
     { name = "numpy" },

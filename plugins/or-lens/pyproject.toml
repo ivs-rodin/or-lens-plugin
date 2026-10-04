@@ -15,8 +15,8 @@ dependencies = [
   "scipy>=1.15,<2",
   "pydantic>=2.11,<3",
   "httpx>=0.28,<1",
-  # STOLP is not on PyPI; pinned to a published commit of its public GitLab repository.
-  "stolp @ git+https://gitlab.com/tarasov.alexey/stolp.git@5882e6c2ddaf7f3c756008878920bba36be0b83b",
+  # STOLP is not on PyPI: its public GitLab repository at a release tag; uv.lock pins the commit.
+  "stolp @ git+https://gitlab.com/tarasov.alexey/stolp.git@v0.3.0",
 ]
 
 [project.optional-dependencies]
