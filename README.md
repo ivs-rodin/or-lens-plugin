@@ -26,8 +26,11 @@ your computer, so model files, matrices and solves stay local.
 
 ## What it does
 
-- **Infeasibility:** a conflict (IIS) extracted by HiGHS and re-solved
-  independently, shown as the constraints and variables involved.
+- **Infeasibility:** every independent source of infeasibility, found by
+  [STOLP](https://gitlab.com/tarasov.alexey/stolp), with fixes checked on the
+  whole model and guidance for the assistant; or a single conflict (IIS)
+  extracted by HiGHS and re-solved independently, shown as the constraints and
+  variables involved.
 - **Numerics:** coefficient ranges on a log scale and diagnostics labeled as
   facts or heuristics.
 - **Structure:** the sparse matrix at any zoom and name-based row and column
@@ -35,8 +38,8 @@ your computer, so model files, matrices and solves stay local.
 - **Solves:** HiGHS runs with independently validated solutions and comparable
   experiments.
 
-Statuses, conflicts and objective values come from HiGHS and independent checks,
-not from the language model. Text summaries the assistant reads become part of
+Statuses, conflicts, fixes and objective values come from HiGHS (directly or
+through STOLP) and independent checks, not from the language model. Text summaries the assistant reads become part of
 the chat.
 
 ## Install in Codex
