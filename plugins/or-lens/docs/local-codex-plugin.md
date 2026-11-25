@@ -1,126 +1,133 @@
-# Локальный плагин Codex
+# Local Codex plugin
 
-Плагин запускает OR Lens и HiGHS на компьютере пользователя. Файлы моделей,
-матрица и вычисления не отправляются на VPS: Codex общается с локальным
-MCP-процессом через стандартный ввод-вывод. Текстовые сводки и результаты,
-которые Codex использует в ответе, становятся контекстом чата.
+The plugin runs OR Lens and HiGHS on the user's computer. Model files, the
+matrix and computations are not sent to a VPS: Codex talks to a local MCP
+process over standard input/output. Text summaries and results that Codex uses
+in its answer become part of the chat context.
 
-## Использование в Codex
+## Use in Codex
 
-После установки включите OR Lens и откройте **новый чат**: уже открытые чаты
-могут сохранять прежний набор MCP-инструментов. Укажите путь к модели, например:
+After installing, enable OR Lens and open a **new chat**: chats that are already
+open may keep the previous set of MCP tools. Give the path to the model, for
+example:
 
-> Используй OR Lens. Открой /полный/путь/model.lp, покажи панель справа
-> и выясни, почему модель плохо решается. Начни с анализа и запуска на 30 секунд.
+> Use OR Lens. Open /full/path/model.lp, show the panel on the right
+> and find out why the model is hard to solve. Start with an analysis
+> and a 30-second run.
 
-Сервер и панель запускаются автоматически. Выделите строку или блок в Matrix,
-затем спросите в чате про это выделение — Codex получит его через
-`get_optimization_panel_state`. Расчёты из чата обновляют Latest solve и историю
-запусков в открытой панели. Сессия временная: после перезапуска плагина модель
-нужно открыть заново; исходный файл остаётся на месте.
+The server and the panel start automatically. Select a row or a block in Matrix,
+then ask about that selection in the chat — Codex receives it through
+`get_optimization_panel_state`. Computations from the chat update Latest solve
+and the run history in the open panel. The session is temporary: after the
+plugin restarts, the model has to be opened again; the source file stays where
+it is.
 
-Для распространения используйте **Share** в карточке установленного плагина
-Codex. Архив ниже содержит runtime плагина; это не отдельный desktop installer.
+To distribute the plugin, use **Share** on the installed plugin's card in
+Codex. The archive below contains the plugin runtime; it is not a separate
+desktop installer.
 
-## Сборка
+## Build
 
-Из корня исходного репозитория создайте переносимый архив:
+From the root of the source repository, create a portable archive:
 
 ```sh
 python3 scripts/package_plugin.py
 ```
 
-Он создаёт `dist/or-lens-codex-plugin.zip`. В архив намеренно входят только
-манифесты, сервер, готовый UI, встроенные безопасные примеры, навыки Codex,
-lockfile и bootstrap-скрипт. Корневой `examples/`, `.mcp.json` пользователя, `.git`,
-`.omx`, виртуальные окружения и модели пользователей в архив не попадают.
+It creates `dist/or-lens-codex-plugin.zip`. The archive deliberately contains
+only the manifests, the server, the built UI, the bundled safe examples, the
+Codex skills, the lockfile and the bootstrap script. The root `examples/`, the
+user's `.mcp.json`, `.git`, `.omx`, virtual environments and user models do not
+go into the archive.
 
-Исходный репозиторий содержит переносимые `plugin.json` и `mcp.json`. Собранный
-архив предназначен именно для Codex: в нём остаются `.codex-plugin/plugin.json`,
-`mcp.json` для bootstrap и созданный из него legacy-файл `.mcp.json` для Codex.
-Portable `mcp.json` использует официальный stdio-формат `type: "stdio"` и
-`cwd: "./"`; в `.mcp.json` для Codex добавляются его таймауты старта (300 секунд)
-и операций (900 секунд). Корневой `plugin.json` не входит в архив, чтобы
-portable-манифест не отключил эти Codex-specific timeout overrides. В конфигурации нет
-подстановки абсолютного пути к плагину: поддерживаемый локальный формат
-запускает `./scripts/run-desktop.sh` с `cwd: "."`, то есть из корня
-установленного плагина. Не заменяйте это значение на путь разработчика.
+The source repository contains portable `plugin.json` and `mcp.json`. The built
+archive is meant specifically for Codex: it keeps `.codex-plugin/plugin.json`,
+`mcp.json` for the bootstrap and the legacy `.mcp.json` for Codex generated from
+it. The portable `mcp.json` uses the official stdio format `type: "stdio"` and
+`cwd: "./"`; the `.mcp.json` for Codex adds Codex's startup timeout (300 seconds)
+and operation timeout (900 seconds). The root `plugin.json` is left out of the
+archive so that the portable manifest does not disable these Codex-specific
+timeout overrides. The configuration does not substitute an absolute path to the
+plugin: the supported local format runs `./scripts/run-desktop.sh` with
+`cwd: "."`, that is, from the root of the installed plugin. Do not replace this
+value with a developer's path.
 
-## Маркетплейс на GitHub
+## GitHub marketplace
 
-Отдельный публичный репозиторий-маркетплейс содержит только плагин и
-`.agents/plugins/marketplace.json`. Он генерируется из этого репозитория в
-соседнюю папку; `.git` и лицензия в ней не трогаются:
+A separate public marketplace repository contains only the plugin and
+`.agents/plugins/marketplace.json`. It is generated from this repository into a
+sibling folder; `.git` and the license there are left untouched:
 
 ```sh
 python3 scripts/export_marketplace.py ../or-lens-plugin
 ```
 
-Файлы плагина в маркетплейсе совпадают с архивом из `package_plugin.py` байт в
-байт. README маркетплейса — `marketplace/README.md`. Пользователи подключают
-его и ставят плагин так:
+The plugin files in the marketplace match the archive from `package_plugin.py`
+byte for byte. The marketplace README is `marketplace/README.md`. Users add the
+marketplace and install the plugin like this:
 
 ```sh
 codex plugin marketplace add ivs-rodin/or-lens-plugin
 codex plugin add or-lens@or-lens
 ```
 
-Обновление после нового экспорта и push: `codex plugin marketplace upgrade or-lens`.
+To update after a new export and push: `codex plugin marketplace upgrade or-lens`.
 
-Тот же репозиторий — маркетплейс Claude Code (`.claude-plugin/marketplace.json`):
+The same repository is also a Claude Code marketplace
+(`.claude-plugin/marketplace.json`):
 
 ```sh
 claude plugin marketplace add ivs-rodin/or-lens-plugin
 claude plugin install or-lens@or-lens
 ```
 
-Claude Code сначала читает `.mcp.json` плагина (формат Codex), затем
-`mcpServers` из `.claude-plugin/plugin.json`; сервер `or-lens` оттуда заменяет
-запись Codex и запускает `${CLAUDE_PLUGIN_ROOT}/scripts/run-desktop.sh` без
-зависимости от рабочей папки. Иконка и логотип для списка плагинов Codex лежат
-в `assets/` (сгенерированы из `ui/brand/`), плашка и превью README — в
-`marketplace/assets/`. Перед публикацией проверяйте `claude plugin validate`
-для папки плагина и корня маркетплейса.
-Общий каталог плагинов OpenAI требует MCP по публичному HTTPS, поэтому
-локальный stdio-плагин распространяется через такой маркетплейс.
+Claude Code first reads the plugin's `.mcp.json` (the Codex format), then
+`mcpServers` from `.claude-plugin/plugin.json`; the `or-lens` server from there
+replaces the Codex entry and runs `${CLAUDE_PLUGIN_ROOT}/scripts/run-desktop.sh`
+regardless of the working folder. The icon and logo for the Codex plugin list
+are in `assets/` (generated from `ui/brand/`), the banner and the README preview
+in `marketplace/assets/`. Before publishing, run `claude plugin validate` on the
+plugin folder and on the marketplace root.
+OpenAI's public plugin directory requires MCP over public HTTPS, so the local
+stdio plugin is distributed through such a marketplace.
 
-## Первый запуск
+## First launch
 
-При первом подключении Codex запускает `scripts/run-desktop.sh`. Скрипт:
+On the first connection Codex runs `scripts/run-desktop.sh`. The script:
 
-1. Проверяет macOS/Linux и `arm64`/`aarch64`/`x86_64`.
-2. Копирует allowlisted runtime в `$XDG_CACHE_HOME/or-lens` или
-   `$HOME/.cache/or-lens`, ключуя его SHA-256 от кода и `uv.lock`.
-3. Использует установленный `uv`; если его нет, скачивает официальный installer
-   только по HTTPS с `https://astral.sh/uv/install.sh` в этот пользовательский
-   cache, затем удаляет installer.
-4. Выполняет `uv sync --frozen --no-dev --python 3.12` в копии runtime и
-   запускает `or-lens desktop`.
+1. Checks for macOS/Linux and `arm64`/`aarch64`/`x86_64`.
+2. Copies the allowlisted runtime to `$XDG_CACHE_HOME/or-lens` or
+   `$HOME/.cache/or-lens`, keyed by the SHA-256 of the code and `uv.lock`.
+3. Uses the installed `uv`; if there is none, downloads the official installer
+   over HTTPS only, from `https://astral.sh/uv/install.sh`, into this per-user
+   cache, then deletes the installer.
+4. Runs `uv sync --frozen --no-dev --python 3.12` in the runtime copy and
+   starts `or-lens desktop`.
 
-Исходная папка установленного плагина остаётся read-only. Вывод bootstrap идёт
-в stderr; stdout оставлен только MCP-протоколу. Первый старт требует сеть для
-`uv` и lockfile-зависимостей и может занять несколько минут. Конфигурация
-выделяет ему 300 секунд; если сеть медленнее, повторите подключение после
-предварительного запуска bootstrap из терминала. Последующие старты используют
-готовый runtime.
+The source folder of the installed plugin stays read-only. Bootstrap output goes
+to stderr; stdout is reserved for the MCP protocol. The first start needs the
+network for `uv` and the lockfile dependencies and can take a few minutes. The
+configuration allows it 300 seconds; if the network is slower, run the bootstrap
+from a terminal first and then reconnect. Later starts use the ready runtime.
 
-`desktop` создаёт локальный loopback UI с произвольным свободным портом и
-одновременно обслуживает MCP по stdio. Для ресурсоёмких операций Codex ждёт до
-900 секунд, а отдельные solver limits OR Lens остаются ограниченными пятью
-минутами.
+`desktop` creates a local loopback UI on an arbitrary free port and serves MCP
+over stdio at the same time. For resource-intensive operations Codex waits up
+to 900 seconds, while individual OR Lens solver limits stay capped at five
+minutes.
 
-Windows пока явно не поддержан bootstrap-скриптом. При ошибке он завершится с
-понятным сообщением в логах Codex, без частичной установки в папку плагина.
+The bootstrap script explicitly does not support Windows yet. On an error it
+exits with a clear message in the Codex logs, without a partial installation in
+the plugin folder.
 
-## Проверка пакета
+## Package check
 
 ```sh
 python3 scripts/package_plugin.py --output /tmp/or-lens.zip
 uv run pytest -q tests/test_plugin_package.py
 ```
 
-После установки создайте новый чат Codex и попросите открыть небольшой `.lp`
-файл. Проверьте, что справа появился OR Lens, затем попросите объяснить
-инфизибильность и открыть матрицу. Большие модели следует проверять после
-готовности runtime, чтобы не смешивать время первого скачивания зависимостей с
-временем анализа.
+After installing, start a new Codex chat and ask it to open a small `.lp`
+file. Check that OR Lens appears on the right, then ask it to explain the
+infeasibility and open the matrix. Check large models once the runtime is
+ready, so that the time of the first dependency download is not mixed with the
+analysis time.
